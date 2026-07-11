@@ -1,0 +1,26 @@
+# Core
+numpy
+pandas
+scipy
+scikit-learn
+matplotlib
+seaborn
+tqdm
+
+# Audio
+librosa
+soundfile
+noisereduce
+
+# Deep learning (Colab already has torch; listed for local installs)
+torch
+torchaudio
+
+# Explainability
+shap
+lime
+
+# Generative art
+diffusers
+transformers
+accelerate

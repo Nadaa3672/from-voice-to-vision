@@ -1,0 +1,25 @@
+# Data & large artifacts
+data/
+*.wav
+*.zip
+*.pt
+*.pth
+*.h5
+*.npy
+*.npz
+
+# Generated
+results/figures/*.png
+results/*.json
+!results/.gitkeep
+!results/figures/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+env/
+
+# OS
+.DS_Store
