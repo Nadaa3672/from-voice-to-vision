@@ -54,6 +54,8 @@ HOP_LENGTH = 256
 SEED = 42
 # Speaker-independent split: actors reserved for validation / test.
 # (odd actor ids = male, even = female — kept balanced across splits)
-VAL_ACTORS = [3, 4]
+# Larger validation (4 actors) makes the optimization fitness far less noisy
+# and avoids over-fitting the hyper-parameters to just a couple of speakers.
+VAL_ACTORS = [3, 4, 5, 6]
 TEST_ACTORS = [1, 2, 21, 22]
-# everyone else -> training
+# everyone else -> training (16 actors)
