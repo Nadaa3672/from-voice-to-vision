@@ -55,7 +55,8 @@ def make_objective(splits, epochs: int = 12, patience: int = 4, verbose: bool = 
             return cache[key]
         hp = decode(u)
         out = cnn.train_cnn(splits, hp, epochs=epochs, patience=patience, verbose=False)
-        fit = out["best_val_acc"]
+        # robust fitness (mean of top-3 val epochs) generalises better than a lucky peak
+        fit = out["robust_val_acc"]
         cache[key] = fit
         history_evals.append({"hp": hp, "val_acc": fit})
         if verbose:
