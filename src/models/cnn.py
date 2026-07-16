@@ -31,6 +31,19 @@ def get_device():
     return torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
+def load_checkpoint(path, device=None):
+    """Rebuild an EmotionCNN from a saved checkpoint (state_dict + hp + norm)."""
+    device = device or get_device()
+    ck = torch.load(path, map_location=device)
+    model = EmotionCNN(n_classes=len(config.EMOTIONS),
+                       dropout=float(ck["hp"].get("dropout", 0.3)),
+                       width=int(ck["hp"].get("width", 32)),
+                       in_channels=int(ck.get("in_channels", 3))).to(device)
+    model.load_state_dict(ck["state_dict"])
+    model.eval()
+    return model, ck
+
+
 # ----------------------------------------------------------------------
 # Dataset: standardize with train stats, add delta channels, optional SpecAugment
 # ----------------------------------------------------------------------
