@@ -139,6 +139,45 @@ def evaluate(model, loader, device):
     return accuracy_score(tgts, preds), preds, tgts
 
 
+def eval_loader(splits, split_name, mean, std, deltas=True, batch_size=32):
+    """Build a (non-augmented) DataLoader for val/test, using train normalization."""
+    ds = MelDataset(splits[split_name]["X_mel"], splits[split_name]["y"], mean, std,
+                    deltas=deltas, augment=False)
+    return DataLoader(ds, batch_size=int(batch_size))
+
+
+@torch.no_grad()
+def predict_proba(model, loader, device):
+    """Softmax probabilities and targets for every item in the loader."""
+    model.eval()
+    probs, tgts = [], []
+    for x, y in loader:
+        p = torch.softmax(model(x.to(device)), dim=1)
+        probs.append(p.cpu().numpy())
+        tgts.append(y.numpy())
+    return np.concatenate(probs), np.concatenate(tgts)
+
+
+def ensemble_evaluate(models, splits, split_name="test", deltas=True, batch_size=32, device=None):
+    """
+    Soft-voting ensemble: average the softmax probabilities of several trained
+    models. All models share the same train normalization, so one loader suffices.
+    Returns (accuracy, mean_probs, targets).
+    """
+    device = device or get_device()
+    mean, std = norm_stats(splits["train"]["X_mel"])
+    loader = eval_loader(splits, split_name, mean, std, deltas=deltas, batch_size=batch_size)
+    acc_probs = None
+    targets = None
+    for m in models:
+        p, t = predict_proba(m, loader, device)
+        acc_probs = p if acc_probs is None else acc_probs + p
+        targets = t
+    mean_probs = acc_probs / len(models)
+    preds = mean_probs.argmax(1)
+    return accuracy_score(targets, preds), mean_probs, targets
+
+
 def train_cnn(splits, hp, epochs: int = 50, patience: int = 12,
               deltas: bool = True, augment: bool = True,
               device=None, verbose: bool = True, seed: int = config.SEED):
