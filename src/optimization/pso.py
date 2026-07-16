@@ -8,9 +8,11 @@ import numpy as np
 
 
 def optimize(objective, dim, n_particles=6, n_iter=6,
-             w=0.6, c1=1.5, c2=1.5, vmax=0.3, seed=42, verbose=True):
+             w=0.6, c1=1.5, c2=1.5, vmax=0.3, seed=42, verbose=True, seed_u=None):
     rng = np.random.default_rng(seed)
     X = rng.random((n_particles, dim))
+    if seed_u is not None:                       # start one particle at the good default
+        X[0] = np.clip(np.asarray(seed_u, dtype=float), 0.0, 1.0)
     V = (rng.random((n_particles, dim)) * 2 - 1) * 0.1
 
     fit = np.array([objective(x) for x in X])

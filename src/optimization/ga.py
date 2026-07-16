@@ -32,9 +32,11 @@ def _mutate(ind, rng, rate=0.2, sigma=0.1):
 
 def optimize(objective, dim, pop_size=6, n_iter=6,
              cx_rate=0.9, mut_rate=0.2, mut_sigma=0.1, elite=1, tournament=3,
-             seed=42, verbose=True):
+             seed=42, verbose=True, seed_u=None):
     rng = np.random.default_rng(seed)
     P = rng.random((pop_size, dim))
+    if seed_u is not None:                       # seed one individual with the good default
+        P[0] = np.clip(np.asarray(seed_u, dtype=float), 0.0, 1.0)
     fit = np.array([objective(x) for x in P])
 
     best_i = int(fit.argmax())
