@@ -66,4 +66,4 @@ from-voice-to-vision/
 ---
 
 ## 👤 Author
-Nada — *Artificial Intelligence: From Engineering to Arts*
+Nada Hekal
