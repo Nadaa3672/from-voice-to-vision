@@ -1,18 +1,11 @@
-# Data & large artifacts
+# Dataset (downloaded automatically by the notebooks)
 data/
 *.wav
 *.zip
-*.pt
-*.pth
-*.h5
+
+# Cached feature arrays (regenerated in ~1 min)
 *.npy
 *.npz
-
-# Generated
-results/figures/*.png
-results/*.json
-!results/.gitkeep
-!results/figures/.gitkeep
 
 # Python
 __pycache__/
@@ -23,3 +16,5 @@ env/
 
 # OS
 .DS_Store
+
+# NOTE: results/ is intentionally tracked (trained model, metrics, figures)
