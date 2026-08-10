@@ -1,0 +1,35 @@
+{
+  "protocol": "speaker-independent (16 train / 4 val / 4 test actors)",
+  "dataset": "RAVDESS speech, 1440 clips, 8 emotions",
+  "chance_level": 0.125,
+  "classical_baselines": {
+    "SVM_RBF": 0.517,
+    "LogisticRegression": 0.487,
+    "RandomForest": 0.463,
+    "KNN_k7": 0.329
+  },
+  "cnn_baseline_no_augment": 0.529,
+  "finalists": {
+    "default": {
+      "val": 0.562,
+      "test": 0.537
+    },
+    "PSO": {
+      "val": 0.512,
+      "test": 0.567
+    },
+    "FSO": {
+      "val": 0.504,
+      "test": 0.583
+    },
+    "GA": {
+      "val": 0.546,
+      "test": 0.554
+    }
+  },
+  "ensemble_test_acc": 0.588,
+  "leakage_experiment": {
+    "random_split": 0.4,
+    "speaker_independent": 0.575
+  }
+}

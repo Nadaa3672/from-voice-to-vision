@@ -1,0 +1,5 @@
+{
+  "random_split_test_acc": 0.4,
+  "speaker_independent_test_acc": 0.575,
+  "inflation_points": -17.499999999999993
+}
